@@ -15,7 +15,6 @@ st.title("📄 Query Your PDF Notes")
 # --- Hugging Face API Token ---
 # It's recommended to set this as an environment variable or Streamlit secret
 # For local testing, you can uncomment the line below and paste your token
-import os
 HF_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
 # --- Helper Function to Create the RAG Chain ---
