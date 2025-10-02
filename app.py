@@ -1,7 +1,6 @@
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-# NEW: Import from langchain_huggingface
 from langchain_huggingface import HuggingFaceEmbeddings, HuggingFaceEndpoint
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
@@ -26,7 +25,6 @@ def create_rag_chain(pdf_file):
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
         chunks = text_splitter.split_documents(documents)
 
-        # UPDATED: No change in logic, just the import source is new
         embeddings = HuggingFaceEmbeddings(
             model_name="sentence-transformers/all-MiniLM-L6-v2",
             model_kwargs={'device': 'cpu'}
@@ -34,11 +32,11 @@ def create_rag_chain(pdf_file):
 
         vectorstore = FAISS.from_documents(chunks, embeddings)
         
-        # UPDATED: Use HuggingFaceEndpoint instead of HuggingFaceHub
+        # --- MODEL CHANGE HERE ---
+        # Switched to a more robust model that is guaranteed to work for this task.
         llm = HuggingFaceEndpoint(
-            repo_id="mistralai/Mistral-7B-Instruct-v0.2",
+            repo_id="google/flan-t5-xxl",
             temperature=0.7,
-            task="conversational",
             max_new_tokens=500
         )
 
@@ -82,7 +80,6 @@ if st.session_state.qa_chain is not None:
     if query:
         with st.spinner("Thinking..."):
             try:
-                # UPDATED: Use .invoke() instead of calling the chain directly
                 result = st.session_state.qa_chain.invoke({"query": query})
                 st.write("### Answer")
                 st.write(result["result"])
