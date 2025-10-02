@@ -35,7 +35,7 @@ def create_rag_chain(pdf_file):
         # --- MODEL CHANGE HERE ---
         # Switched to a more robust model that is guaranteed to work for this task.
         llm = HuggingFaceEndpoint(
-            repo_id="google/flan-t5-xxl",
+            repo_id="google/flan-t5-large",
             temperature=0.7,
             max_new_tokens=500
         )
