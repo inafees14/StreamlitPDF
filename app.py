@@ -38,6 +38,7 @@ def create_rag_chain(pdf_file):
         llm = HuggingFaceEndpoint(
             repo_id="mistralai/Mistral-7B-Instruct-v0.2",
             temperature=0.7,
+            task="conversational",
             max_new_tokens=500
         )
 
